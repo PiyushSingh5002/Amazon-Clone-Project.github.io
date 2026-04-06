@@ -1,112 +1,221 @@
-import {cart, removeFromCart} from '../data/cart.js';
+import {cart, removeFromCart, updateCartItemQuantity, clearCart} from '../data/cart.js';
 import {products} from '../data/products.js';
 import {formatCurrency} from './utils/money.js';
+import {
+  getAddresses,
+  getPaymentMethods,
+  getSelectedAddressId,
+  getSelectedPaymentId,
+  setSelectedAddressId,
+  setSelectedPaymentId
+} from '../data/user-profile.js';
 
-let cartSummaryHTML = '';
+const SHIPPING_CENTS = 499;
 
-cart.forEach((cartItem) => {
-  const productId = cartItem.productId;
+function getProduct(productId) {
+  return products.find((product) => product.id === productId);
+}
 
-  let matchingProduct;
+function getCartQuantity() {
+  return cart.reduce((total, cartItem) => total + cartItem.quantity, 0);
+}
 
-  products.forEach((product) => {
-    if (product.id === productId) {
-      matchingProduct = product;
-    }
+function getItemsTotalCents() {
+  return cart.reduce((sum, cartItem) => {
+    const product = getProduct(cartItem.productId);
+    return product ? sum + (product.priceCents * cartItem.quantity) : sum;
+  }, 0);
+}
+
+function renderCartSummary() {
+  const orderSummaryElement = document.querySelector('.js-order-summary');
+
+  if (cart.length === 0) {
+    orderSummaryElement.innerHTML = `
+      <div class="empty-cart-message">
+        <h3>Your cart feels lonely right now.</h3>
+        <p>Add something you love and we will deliver it fast.</p>
+        <a class="link-primary" href="index.html">Continue shopping</a>
+      </div>
+    `;
+    return;
+  }
+
+  orderSummaryElement.innerHTML = cart
+    .map((cartItem) => {
+      const product = getProduct(cartItem.productId);
+
+      if (!product) {
+        return '';
+      }
+
+      return `
+        <div class="cart-item-container js-cart-item-container-${product.id}">
+          <div class="delivery-date">Delivery in 2-4 working days</div>
+
+          <div class="cart-item-details-grid">
+            <img class="product-image" src="${product.image}">
+
+            <div class="cart-item-details">
+              <div class="product-name">${product.name}</div>
+              <div class="product-price">Rs. ${formatCurrency(product.priceCents)}</div>
+              <div class="product-quantity">
+                <span>
+                  Quantity:
+                  <select class="js-quantity-select" data-product-id="${product.id}">
+                    <option value="1" ${cartItem.quantity === 1 ? 'selected' : ''}>1</option>
+                    <option value="2" ${cartItem.quantity === 2 ? 'selected' : ''}>2</option>
+                    <option value="3" ${cartItem.quantity === 3 ? 'selected' : ''}>3</option>
+                    <option value="4" ${cartItem.quantity === 4 ? 'selected' : ''}>4</option>
+                    <option value="5" ${cartItem.quantity === 5 ? 'selected' : ''}>5</option>
+                  </select>
+                </span>
+                <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${product.id}">
+                  Delete
+                </span>
+              </div>
+            </div>
+
+            <div class="delivery-options">
+              <div class="delivery-options-title">Delivery option:</div>
+              <div class="delivery-option">
+                <input type="radio" checked class="delivery-option-input" name="delivery-option-${product.id}">
+                <div>
+                  <div class="delivery-option-date">Standard Delivery</div>
+                  <div class="delivery-option-price">Rs. ${formatCurrency(SHIPPING_CENTS)} shipping once per order</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    })
+    .join('');
+}
+
+function renderAddressOptions() {
+  const addresses = getAddresses();
+  const selectedAddressId = getSelectedAddressId();
+  const listElement = document.querySelector('.js-address-selection-list');
+
+  if (addresses.length === 0) {
+    listElement.innerHTML = '<p>Add a delivery address to continue.</p>';
+    return;
+  }
+
+  listElement.innerHTML = addresses
+    .map((address) => `
+      <label class="selection-item">
+        <input type="radio" name="selected-address" class="js-address-radio"
+          value="${address.id}" ${address.id === selectedAddressId ? 'checked' : ''}>
+        <div>
+          <div class="selection-name">${address.fullName}</div>
+          <div>${address.addressLine}, ${address.city}, ${address.state} - ${address.pinCode}</div>
+          <div>Phone: ${address.phone}</div>
+        </div>
+      </label>
+    `)
+    .join('');
+
+  document.querySelectorAll('.js-address-radio').forEach((radio) => {
+    radio.addEventListener('change', () => {
+      setSelectedAddressId(radio.value);
+    });
   });
+}
 
-  cartSummaryHTML += `
-    <div class="cart-item-container
-      js-cart-item-container-${matchingProduct.id}">
-      <div class="delivery-date">
-        Delivery date: Tuesday, June 21
-      </div>
+function renderPaymentOptions() {
+  const paymentMethods = getPaymentMethods();
+  const selectedPaymentId = getSelectedPaymentId();
+  const listElement = document.querySelector('.js-payment-selection-list');
 
-      <div class="cart-item-details-grid">
-        <img class="product-image"
-          src="${matchingProduct.image}">
+  if (paymentMethods.length === 0) {
+    listElement.innerHTML = '<p>Add a card to continue.</p>';
+    return;
+  }
 
-        <div class="cart-item-details">
-          <div class="product-name">
-            ${matchingProduct.name}
-          </div>
-          <div class="product-price">
-            ${formatCurrency(matchingProduct.priceCents)}
-          </div>
-          <div class="product-quantity">
-            <span>
-              Quantity: <span class="quantity-label">${cartItem.quantity}</span>
-            </span>
-            <span class="update-quantity-link link-primary">
-              Update
-            </span>
-            <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${matchingProduct.id}">
-              Delete
-            </span>
-          </div>
+  listElement.innerHTML = paymentMethods
+    .map((method) => `
+      <label class="selection-item">
+        <input type="radio" name="selected-payment" class="js-payment-radio"
+          value="${method.id}" ${method.id === selectedPaymentId ? 'checked' : ''}>
+        <div>
+          <div class="selection-name">${method.cardName}</div>
+          <div>${method.cardNumber}</div>
+          <div>Expiry: ${method.expiry}</div>
         </div>
+      </label>
+    `)
+    .join('');
 
-        <div class="delivery-options">
-          <div class="delivery-options-title">
-            Choose a delivery option:
-          </div>
-          <div class="delivery-option">
-            <input type="radio" checked
-              class="delivery-option-input"
-              name="delivery-option-${matchingProduct.id}">
-            <div>
-              <div class="delivery-option-date">
-                Tuesday, June 21
-              </div>
-              <div class="delivery-option-price">
-                FREE Shipping
-              </div>
-            </div>
-          </div>
-          <div class="delivery-option">
-            <input type="radio"
-              class="delivery-option-input"
-              name="delivery-option-${matchingProduct.id}">
-            <div>
-              <div class="delivery-option-date">
-                Wednesday, June 15
-              </div>
-              <div class="delivery-option-price">
-                499 - Shipping
-              </div>
-            </div>
-          </div>
-          <div class="delivery-option">
-            <input type="radio"
-              class="delivery-option-input"
-              name="delivery-option-${matchingProduct.id}">
-            <div>
-              <div class="delivery-option-date">
-                Monday, June 13
-              </div>
-              <div class="delivery-option-price">
-                999 - Shipping
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  `;
-});
+  document.querySelectorAll('.js-payment-radio').forEach((radio) => {
+    radio.addEventListener('change', () => {
+      setSelectedPaymentId(radio.value);
+    });
+  });
+}
 
-document.querySelector('.js-order-summary')
-  .innerHTML = cartSummaryHTML;
+function renderPaymentSummary() {
+  const quantity = getCartQuantity();
+  const itemsTotalCents = getItemsTotalCents();
+  const shippingCents = quantity > 0 ? SHIPPING_CENTS : 0;
+  const subtotalCents = itemsTotalCents + shippingCents;
+  const taxCents = Math.round(subtotalCents * 0.1);
+  const totalCents = subtotalCents + taxCents;
 
-document.querySelectorAll('.js-delete-link')
-  .forEach((link) => {
+  document.querySelector('.js-return-to-home-link').textContent = `${quantity} items`;
+  document.querySelector('.js-items-label').textContent = `Items (${quantity}):`;
+  document.querySelector('.js-items-price').textContent = formatCurrency(itemsTotalCents);
+  document.querySelector('.js-shipping-price').textContent = formatCurrency(shippingCents);
+  document.querySelector('.js-subtotal-price').textContent = formatCurrency(subtotalCents);
+  document.querySelector('.js-tax-price').textContent = formatCurrency(taxCents);
+  document.querySelector('.js-total-price').textContent = formatCurrency(totalCents);
+}
+
+function attachDeleteHandlers() {
+  document.querySelectorAll('.js-delete-link').forEach((link) => {
     link.addEventListener('click', () => {
       const productId = link.dataset.productId;
       removeFromCart(productId);
-
-      const container = document.querySelector(
-        `.js-cart-item-container-${productId}`
-      );
-      container.remove();
+      renderAll();
     });
   });
+}
+
+function attachQuantityHandlers() {
+  document.querySelectorAll('.js-quantity-select').forEach((select) => {
+    select.addEventListener('change', () => {
+      updateCartItemQuantity(select.dataset.productId, select.value);
+      renderAll();
+    });
+  });
+}
+
+function renderAll() {
+  renderCartSummary();
+  renderPaymentSummary();
+  renderAddressOptions();
+  renderPaymentOptions();
+  attachDeleteHandlers();
+  attachQuantityHandlers();
+}
+
+document.querySelector('.js-place-order-button').addEventListener('click', () => {
+  const hasAddress = getAddresses().length > 0;
+  const hasPayment = getPaymentMethods().length > 0;
+
+  if (cart.length === 0) {
+    alert('Your cart is empty. Add a few products first.');
+    return;
+  }
+
+  if (!hasAddress || !hasPayment) {
+    alert('Please add both an address and a payment method before placing your order.');
+    return;
+  }
+
+  clearCart();
+  window.location.href = 'order-confirmation.html';
+});
+
+renderAll();

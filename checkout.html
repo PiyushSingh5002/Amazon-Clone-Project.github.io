@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Checkout</title>
+    <title>TakeItHome.com | Checkout</title>
 
     <!-- This code is needed for responsive design to work.
       (Responsive design = make the website look good on
@@ -22,15 +22,15 @@
     <div class="checkout-header">
       <div class="header-content">
         <div class="checkout-header-left-section">
-          <a href="index.html">
-            <img class="amazon-logo" src="images/amazon-logo.png">
-            <img class="amazon-mobile-logo" src="images/amazon-mobile-logo.png">
+          <a href="index.html" class="brand-link brand-link-dark">
+            <div class="brand-logo">TakeItHome.com</div>
+            <div class="brand-logo-mobile">TIH</div>
           </a>
         </div>
 
         <div class="checkout-header-middle-section">
-          Checkout (<a class="return-to-home-link"
-            href="index.html">3 items</a>)
+          Checkout (<a class="return-to-home-link js-return-to-home-link"
+            href="index.html">0 items</a>)
         </div>
 
         <div class="checkout-header-right-section">
@@ -40,7 +40,7 @@
     </div>
 
     <div class="main">
-      <div class="page-title">Review your order</div>
+      <div class="page-title">Review your cart and place order</div>
 
       <div class="checkout-grid">
         <div class="order-summary js-order-summary">
@@ -52,36 +52,56 @@
           </div>
 
           <div class="payment-summary-row">
-            <div>Items (3):</div>
-            <div class="payment-summary-money">4275</div>
+            <div class="js-items-label">Items (0):</div>
+            <div class="payment-summary-money js-items-price">0.00</div>
           </div>
 
           <div class="payment-summary-row">
             <div>Shipping &amp; handling:</div>
-            <div class="payment-summary-money">499</div>
+            <div class="payment-summary-money js-shipping-price">0.00</div>
           </div>
 
           <div class="payment-summary-row subtotal-row">
             <div>Total before tax:</div>
-            <div class="payment-summary-money">4774</div>
+            <div class="payment-summary-money js-subtotal-price">0.00</div>
           </div>
 
           <div class="payment-summary-row">
             <div>Estimated tax (10%):</div>
-            <div class="payment-summary-money">477</div>
+            <div class="payment-summary-money js-tax-price">0.00</div>
           </div>
 
           <div class="payment-summary-row total-row">
             <div>Order total:</div>
-            <div class="payment-summary-money">5251</div>
+            <div class="payment-summary-money js-total-price">0.00</div>
           </div>
 
-          <button class="place-order-button button-primary">
+          <div class="checkout-block">
+            <div class="checkout-block-title">1) Select delivery address</div>
+            <div class="selection-list js-address-selection-list"></div>
+            <a class="manage-link" href="address-book.html">+ Manage addresses</a>
+          </div>
+
+          <div class="checkout-block">
+            <div class="checkout-block-title">2) Select payment method</div>
+            <div class="selection-list js-payment-selection-list"></div>
+            <a class="manage-link" href="payment-methods.html">+ Manage cards</a>
+          </div>
+
+          <button class="place-order-button button-primary js-place-order-button">
             Place your order
           </button>
+
+          <p class="checkout-note">Take it home before it is gone!</p>
         </div>
       </div>
+
     </div>
+
+    <footer class="site-footer">
+      <p>TakeItHome.com</p>
+      <p class="footer-tagline">Take it home before it is gone!</p>
+    </footer>
 
     <script type="module" src="scripts/checkout.js"></script>
   </body>

@@ -1,35 +1,43 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Amazon Project</title>
+    <title>TakeItHome.com | Shop Smart, Live Better</title>
 
     <!-- This code is needed for responsive design to work.
       (Responsive design = make the website look good on
       smaller screen sizes like a phone or a tablet). -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Load a font called Roboto from Google Fonts. -->
+    <!-- Load fonts for the homepage. -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
     <!-- Here are the CSS files for this page. -->
     <link rel="stylesheet" href="styles/shared/general.css">
-    <link rel="stylesheet" href="styles/shared/amazon-header.css">
-    <link rel="stylesheet" href="styles/pages/amazon.css">
+    <link rel="stylesheet" href="styles/shared/takeitHome-header.css">
+    <link rel="stylesheet" href="styles/pages/takeitHome.css">
   </head>
-  <body>
-    <div class="amazon-header">
-      <div class="amazon-header-left-section">
-        <a href="amazon.html" class="header-link">
-          <img class="amazon-logo"
-            src="images/amazon-logo-white.png">
-          <img class="amazon-mobile-logo"
-            src="images/amazon-mobile-logo-white.png">
+  <body class="page-loading">
+    <div class="splash-screen js-splash-screen" aria-live="polite">
+      <div class="splash-content">
+        <h1 class="splash-brand">TakeItHome.com</h1>
+        <p class="splash-tagline">Take it home before it's gone!</p>
+        <div class="splash-loader">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tih-header">
+      <div class="tih-header-left-section">
+        <a href="index.html" class="header-link brand-link">
+          <div class="brand-logo">TakeItHome.com</div>
+          <div class="brand-logo-mobile">TIH</div>
         </a>
       </div>
 
-      <div class="amazon-header-middle-section">
+      <div class="tih-header-middle-section">
         <input class="search-bar" type="text" placeholder="Search">
 
         <button class="search-button">
@@ -37,10 +45,20 @@
         </button>
       </div>
 
-      <div class="amazon-header-right-section">
+      <div class="tih-header-right-section">
         <a class="orders-link header-link" href="orders.html">
-          <span class="returns-text">Returns</span>
-          <span class="orders-text">& Orders</span>
+          <span class="returns-text">Your</span>
+          <span class="orders-text">Orders</span>
+        </a>
+
+        <a class="orders-link header-link account-link" href="address-book.html">
+          <span class="returns-text">Address</span>
+          <span class="orders-text">Book</span>
+        </a>
+
+        <a class="orders-link header-link account-link" href="payment-methods.html">
+          <span class="returns-text">Payment</span>
+          <span class="orders-text">Methods</span>
         </a>
 
         <a class="cart-link header-link" href="checkout.html">
@@ -51,11 +69,96 @@
       </div>
     </div>
 
-    <div class="main">
-      <div class="products-grid js-products-grid">
-      </div>
+    <div class="main js-home-content">
+      <section class="hero-carousel" aria-label="Top offers">
+        <div class="hero-slides js-hero-slides">
+          <article class="hero-slide is-active">
+            <img src="https://picsum.photos/seed/electro-deal/1400/420" alt="Electronics offer banner">
+            <div class="hero-slide-content">
+              <p class="hero-kicker">Mega Offer</p>
+              <h2>Up to 70% Off on Electronics</h2>
+              <p>Steals on headphones, smartwatches, and student gadgets.</p>
+            </div>
+          </article>
+          <article class="hero-slide">
+            <img src="https://picsum.photos/seed/fashion-drop/1400/420" alt="Fashion arrivals banner">
+            <div class="hero-slide-content">
+              <p class="hero-kicker">Style Drop</p>
+              <h2>New Fashion Arrivals</h2>
+              <p>Fresh fits for campus days, weekend hangouts, and travel plans.</p>
+            </div>
+          </article>
+          <article class="hero-slide">
+            <img src="https://picsum.photos/seed/home-kitchen/1400/420" alt="Home and kitchen deals banner">
+            <div class="hero-slide-content">
+              <p class="hero-kicker">Home Upgrade</p>
+              <h2>Home and Kitchen Deals</h2>
+              <p>Shop utility essentials with free delivery above Rs. 499.</p>
+            </div>
+          </article>
+        </div>
+
+        <button class="hero-arrow hero-arrow-left js-hero-prev" aria-label="Previous offer">&#10094;</button>
+        <button class="hero-arrow hero-arrow-right js-hero-next" aria-label="Next offer">&#10095;</button>
+
+        <div class="hero-dots js-hero-dots" role="tablist" aria-label="Offer slides"></div>
+      </section>
+
+      <section class="homepage-section discount-zone">
+        <div class="section-heading-row">
+          <h2>🔥 Heavy Discount Zone</h2>
+          <img class="section-sticker" src="https://media.giphy.com/media/l0HlSNOxJB956qwfK/giphy.gif" alt="Fire animation">
+        </div>
+        <div class="category-grid">
+          <article class="category-card">
+            <img src="https://picsum.photos/seed/utensils-card/500/300" alt="Utensils category">
+            <h3>Utensils</h3>
+            <a class="button-primary" href="category.html?category=utensils">Shop Now</a>
+          </article>
+          <article class="category-card">
+            <img src="https://picsum.photos/seed/clothes-card/500/300" alt="Clothes category">
+            <h3>Clothes</h3>
+            <a class="button-primary" href="category.html?category=clothes">Shop Now</a>
+          </article>
+          <article class="category-card">
+            <img src="https://picsum.photos/seed/electronics-card/500/300" alt="Electronics category">
+            <h3>Electronics</h3>
+            <a class="button-primary" href="category.html?category=electronics">Shop Now</a>
+          </article>
+          <article class="category-card">
+            <img src="https://picsum.photos/seed/books-card/500/300" alt="Books category">
+            <h3>Books</h3>
+            <a class="button-primary" href="category.html?category=books">Shop Now</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="homepage-section holiday-special">
+        <div class="section-heading-row">
+          <h2>Holiday Special</h2>
+          <img class="section-sticker" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExN2wyb3Nlb2N0eXF4bTh3MXlnc2k4ZnFrYm9kY2E3N3A2Z3NyNG9jZiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/3o7TKsQ8UQyl5Qz6d2/giphy.gif" alt="Sparkle animation">
+        </div>
+        <div class="holiday-grid js-holiday-grid"></div>
+      </section>
+
+      <section class="homepage-section top-picks">
+        <h2>Top Picks for You</h2>
+        <div class="top-picks-row js-top-picks-row"></div>
+      </section>
+
+      <section class="homepage-section new-arrivals">
+        <h2>New Arrivals</h2>
+        <div class="arrival-grid js-arrival-grid"></div>
+      </section>
     </div>
 
-    <script type="module" src="scripts/amazon.js"></script>
+    <div class="toast js-toast">✅ Added to Cart!</div>
+
+    <footer class="site-footer">
+      <p>TakeItHome.com</p>
+      <p class="footer-tagline">Take it home before it's gone!</p>
+    </footer>
+
+    <script type="module" src="scripts/takeitHome.js"></script>
   </body>
 </html>

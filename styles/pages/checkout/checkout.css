@@ -20,6 +20,10 @@
   margin-bottom: 18px;
 }
 
+.hidden {
+  display: none;
+}
+
 .checkout-grid {
   display: grid;
   /* Here, 1fr means the first column will take
@@ -55,6 +59,84 @@
 
 .payment-summary {
   padding-bottom: 5px;
+}
+
+.checkout-block {
+  margin-top: 20px;
+  border-top: 1px solid rgb(228, 231, 234);
+  padding-top: 12px;
+}
+
+.checkout-block-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.selection-list {
+  display: grid;
+  gap: 8px;
+}
+
+.selection-item {
+  border: 1px solid rgb(223, 226, 230);
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 14px;
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  column-gap: 8px;
+}
+
+.selection-item .selection-name {
+  font-weight: 700;
+  margin-bottom: 3px;
+}
+
+.manage-link {
+  display: inline-block;
+  margin-top: 8px;
+  color: rgb(0, 113, 133);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.manage-link:hover {
+  text-decoration: underline;
+}
+
+.checkout-note {
+  margin-top: 2px;
+  color: rgb(82, 90, 101);
+  font-size: 13px;
+}
+
+.empty-cart-message {
+  background-color: white;
+  border: 1px dashed rgb(205, 210, 214);
+  border-radius: 8px;
+  padding: 18px;
+}
+
+.order-confirmation {
+  margin-top: 24px;
+  background: linear-gradient(120deg, rgb(233, 247, 238), rgb(221, 244, 253));
+  border: 1px solid rgb(187, 220, 200);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.order-confirmation h2 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  color: rgb(21, 95, 52);
+}
+
+.confirmation-link {
+  margin-top: 8px;
+  display: inline-block;
+  text-decoration: none;
+  padding: 8px 12px;
 }
 
 @media (max-width: 1000px) {

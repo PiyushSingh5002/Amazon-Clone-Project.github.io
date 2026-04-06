@@ -48,3 +48,24 @@ export function removeFromCart(productId) {
 
   saveToStorage();
 }
+
+export function updateCartItemQuantity(productId, quantity) {
+  const parsedQuantity = Number(quantity);
+
+  if (Number.isNaN(parsedQuantity) || parsedQuantity < 1) {
+    return;
+  }
+
+  cart.forEach((cartItem) => {
+    if (cartItem.productId === productId) {
+      cartItem.quantity = parsedQuantity;
+    }
+  });
+
+  saveToStorage();
+}
+
+export function clearCart() {
+  cart = [];
+  saveToStorage();
+}
