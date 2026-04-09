@@ -656,5 +656,65 @@ export const products = [
       "apparel",
       "mens"
     ]
+  },
+  {
+    id: "book-atomic-habits",
+    image: "https://images.pexels.com/photos/3747468/pexels-photo-3747468.jpeg?auto=compress&cs=tinysrgb&w=600",
+    name: "Atomic Habits",
+    rating: {
+      stars: 4.5,
+      count: 1288
+    },
+    priceCents: 499,
+    keywords: [
+      "books",
+      "self help",
+      "education"
+    ]
+  },
+  {
+    id: "book-rich-dad",
+    image: "https://images.pexels.com/photos/1907785/pexels-photo-1907785.jpeg?auto=compress&cs=tinysrgb&w=600",
+    name: "Rich Dad Poor Dad",
+    rating: {
+      stars: 4,
+      count: 972
+    },
+    priceCents: 399,
+    keywords: [
+      "books",
+      "finance",
+      "education"
+    ]
+  },
+  {
+    id: "book-physics-guide",
+    image: "https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg?auto=compress&cs=tinysrgb&w=600",
+    name: "Physics Study Guide",
+    rating: {
+      stars: 4.5,
+      count: 614
+    },
+    priceCents: 649,
+    keywords: [
+      "books",
+      "study",
+      "education"
+    ]
+  },
+  {
+    id: "book-web-dev",
+    image: "https://images.pexels.com/photos/1106468/pexels-photo-1106468.jpeg?auto=compress&cs=tinysrgb&w=600",
+    name: "Web Development Handbook",
+    rating: {
+      stars: 4.5,
+      count: 843
+    },
+    priceCents: 799,
+    keywords: [
+      "books",
+      "coding",
+      "education"
+    ]
   }
 ];

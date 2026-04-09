@@ -10,11 +10,12 @@
   align-items: center;
   justify-content: space-between;
 
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   right: 0;
-  height: 60px;
+  height: 64px;
+  z-index: 1000;
 }
 
 .tih-header-left-section {
@@ -139,7 +140,7 @@
   flex-shrink: 0;
   display: flex;
   justify-content: end;
-  gap: 4px;
+  gap: 6px;
 }
 
 .orders-link {
@@ -155,6 +156,22 @@
   display: block;
   font-size: 15px;
   font-weight: 700;
+}
+
+.small-line {
+  display: block;
+  font-size: 12px;
+}
+
+.big-line {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.header-location {
+  color: white;
+  min-width: 110px;
 }
 
 .cart-link {
@@ -210,7 +227,8 @@
 }
 
 @media (max-width: 920px) {
-  .account-link {
+  .account-link,
+  .header-location {
     display: none;
   }
 }

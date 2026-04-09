@@ -29,9 +29,9 @@ const matchedProducts = products
 
 const categoryGrid = document.querySelector('.js-category-grid');
 categoryGrid.innerHTML = matchedProducts
-  .map((product, index) => `
+  .map((product) => `
     <article class="category-item">
-      <img src="https://picsum.photos/seed/category-${category}-${index + 1}/460/300" alt="${product.name}">
+      <img src="${product.image}" alt="${product.name}">
       <h3 class="limit-text-to-2-lines">${product.name}</h3>
       <div>⭐ ${product.rating.stars} (${product.rating.count})</div>
       <div class="category-price">Rs. ${formatCurrency(product.priceCents)}</div>

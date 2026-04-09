@@ -37,8 +37,13 @@
         </a>
       </div>
 
+      <a class="header-link header-location" href="#">
+        <span class="small-line">Deliver to</span>
+        <span class="big-line">Pune 411001</span>
+      </a>
+
       <div class="tih-header-middle-section">
-        <input class="search-bar" type="text" placeholder="Search">
+        <input class="search-bar" type="text" placeholder="Search TakeItHome.com">
 
         <button class="search-button">
           <img class="search-icon" src="images/icons/search-icon.png">
@@ -46,19 +51,14 @@
       </div>
 
       <div class="tih-header-right-section">
+        <a class="orders-link header-link" href="address-book.html">
+          <span class="small-line">Hello, user</span>
+          <span class="big-line">Account</span>
+        </a>
+
         <a class="orders-link header-link" href="orders.html">
-          <span class="returns-text">Your</span>
-          <span class="orders-text">Orders</span>
-        </a>
-
-        <a class="orders-link header-link account-link" href="address-book.html">
-          <span class="returns-text">Address</span>
-          <span class="orders-text">Book</span>
-        </a>
-
-        <a class="orders-link header-link account-link" href="payment-methods.html">
-          <span class="returns-text">Payment</span>
-          <span class="orders-text">Methods</span>
+          <span class="small-line">Returns</span>
+          <span class="big-line">&amp; Orders</span>
         </a>
 
         <a class="cart-link header-link" href="checkout.html">
@@ -69,11 +69,20 @@
       </div>
     </div>
 
+    <nav class="secondary-nav">
+      <a href="#" class="nav-chip is-active" data-category="all">All</a>
+      <a href="#" class="nav-chip" data-category="deals">Deals</a>
+      <a href="#" class="nav-chip" data-category="electronics">Electronics</a>
+      <a href="#" class="nav-chip" data-category="fashion">Fashion</a>
+      <a href="#" class="nav-chip" data-category="books">Books</a>
+      <a href="#" class="nav-chip" data-category="utensils">Kitchen</a>
+    </nav>
+
     <div class="main js-home-content">
       <section class="hero-carousel" aria-label="Top offers">
         <div class="hero-slides js-hero-slides">
           <article class="hero-slide is-active">
-            <img src="https://picsum.photos/seed/electro-deal/1400/420" alt="Electronics offer banner">
+            <img src="https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?auto=compress&cs=tinysrgb&w=1400&h=420&dpr=1" alt="Electronics offer banner">
             <div class="hero-slide-content">
               <p class="hero-kicker">Mega Offer</p>
               <h2>Up to 70% Off on Electronics</h2>
@@ -81,7 +90,7 @@
             </div>
           </article>
           <article class="hero-slide">
-            <img src="https://picsum.photos/seed/fashion-drop/1400/420" alt="Fashion arrivals banner">
+            <img src="https://images.pexels.com/photos/996329/pexels-photo-996329.jpeg?auto=compress&cs=tinysrgb&w=1400&h=420&dpr=1" alt="Fashion arrivals banner">
             <div class="hero-slide-content">
               <p class="hero-kicker">Style Drop</p>
               <h2>New Fashion Arrivals</h2>
@@ -89,7 +98,7 @@
             </div>
           </article>
           <article class="hero-slide">
-            <img src="https://picsum.photos/seed/home-kitchen/1400/420" alt="Home and kitchen deals banner">
+            <img src="https://images.pexels.com/photos/1358900/pexels-photo-1358900.jpeg?auto=compress&cs=tinysrgb&w=1400&h=420&dpr=1" alt="Home and kitchen deals banner">
             <div class="hero-slide-content">
               <p class="hero-kicker">Home Upgrade</p>
               <h2>Home and Kitchen Deals</h2>
@@ -104,51 +113,44 @@
         <div class="hero-dots js-hero-dots" role="tablist" aria-label="Offer slides"></div>
       </section>
 
-      <section class="homepage-section discount-zone">
+      <section class="category-deck">
+        <article class="category-card" data-category="deals">
+          <h3>Today Deals</h3>
+          <div class="mini-grid js-mini-grid-deals"></div>
+          <a href="#" class="see-more-link" data-category="deals">See more</a>
+        </article>
+
+        <article class="category-card" data-category="utensils">
+          <h3>Utensils Deals</h3>
+          <div class="mini-grid js-mini-grid-utensils"></div>
+          <a href="#" class="see-more-link" data-category="utensils">See more</a>
+        </article>
+
+        <article class="category-card" data-category="clothes">
+          <h3>Fashion Picks</h3>
+          <div class="mini-grid js-mini-grid-clothes"></div>
+          <a href="#" class="see-more-link" data-category="clothes">See more</a>
+        </article>
+
+        <article class="category-card" data-category="electronics">
+          <h3>Electronics Essentials</h3>
+          <div class="mini-grid js-mini-grid-electronics"></div>
+          <a href="#" class="see-more-link" data-category="electronics">See more</a>
+        </article>
+
+        <article class="category-card" data-category="books">
+          <h3>Books and Learning</h3>
+          <div class="mini-grid js-mini-grid-books"></div>
+          <a href="#" class="see-more-link" data-category="books">See more</a>
+        </article>
+      </section>
+
+      <section class="homepage-section products-section">
         <div class="section-heading-row">
-          <h2>🔥 Heavy Discount Zone</h2>
-          <img class="section-sticker" src="https://media.giphy.com/media/l0HlSNOxJB956qwfK/giphy.gif" alt="Fire animation">
+          <h2 class="js-products-title">All Products</h2>
+          <p class="products-count js-products-count">0 items</p>
         </div>
-        <div class="category-grid">
-          <article class="category-card">
-            <img src="https://picsum.photos/seed/utensils-card/500/300" alt="Utensils category">
-            <h3>Utensils</h3>
-            <a class="button-primary" href="category.html?category=utensils">Shop Now</a>
-          </article>
-          <article class="category-card">
-            <img src="https://picsum.photos/seed/clothes-card/500/300" alt="Clothes category">
-            <h3>Clothes</h3>
-            <a class="button-primary" href="category.html?category=clothes">Shop Now</a>
-          </article>
-          <article class="category-card">
-            <img src="https://picsum.photos/seed/electronics-card/500/300" alt="Electronics category">
-            <h3>Electronics</h3>
-            <a class="button-primary" href="category.html?category=electronics">Shop Now</a>
-          </article>
-          <article class="category-card">
-            <img src="https://picsum.photos/seed/books-card/500/300" alt="Books category">
-            <h3>Books</h3>
-            <a class="button-primary" href="category.html?category=books">Shop Now</a>
-          </article>
-        </div>
-      </section>
-
-      <section class="homepage-section holiday-special">
-        <div class="section-heading-row">
-          <h2>Holiday Special</h2>
-          <img class="section-sticker" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExN2wyb3Nlb2N0eXF4bTh3MXlnc2k4ZnFrYm9kY2E3N3A2Z3NyNG9jZiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/3o7TKsQ8UQyl5Qz6d2/giphy.gif" alt="Sparkle animation">
-        </div>
-        <div class="holiday-grid js-holiday-grid"></div>
-      </section>
-
-      <section class="homepage-section top-picks">
-        <h2>Top Picks for You</h2>
-        <div class="top-picks-row js-top-picks-row"></div>
-      </section>
-
-      <section class="homepage-section new-arrivals">
-        <h2>New Arrivals</h2>
-        <div class="arrival-grid js-arrival-grid"></div>
+        <div class="filtered-products-grid js-filtered-products-grid"></div>
       </section>
     </div>
 
