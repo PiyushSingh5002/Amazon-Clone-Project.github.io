@@ -1,13 +1,7 @@
-import {cart, addToCart} from '../data/cart.js';
-import {products} from '../data/products.js';
+import {addToCart, syncCartFromStorage} from './cart.js';
+import {getProductsByCategory} from './products.js';
 import {formatCurrency} from './utils/money.js';
-
-const CATEGORY_RULES = {
-  utensils: ['kitchen', 'cookware', 'plates', 'appliances'],
-  clothes: ['apparel', 'mens', 'womens', 'hoodies', 'shorts'],
-  electronics: ['appliances', 'accessories', 'sports'],
-  books: ['home', 'bedroom', 'dining', 'bathroom']
-};
+import {updateCartBadge} from './site-shell.js';
 
 const CATEGORY_LABELS = {
   utensils: 'Utensils Deals',
@@ -18,14 +12,11 @@ const CATEGORY_LABELS = {
 
 const params = new URLSearchParams(window.location.search);
 const category = params.get('category') || 'utensils';
-const categoryKeywords = CATEGORY_RULES[category] || CATEGORY_RULES.utensils;
 const categoryTitle = CATEGORY_LABELS[category] || 'Category Deals';
 
 document.querySelector('.js-category-title').textContent = categoryTitle;
 
-const matchedProducts = products
-  .filter((product) => product.keywords.some((keyword) => categoryKeywords.includes(keyword)))
-  .slice(0, 12);
+const matchedProducts = getProductsByCategory(category).slice(0, 12);
 
 const categoryGrid = document.querySelector('.js-category-grid');
 categoryGrid.innerHTML = matchedProducts
@@ -44,7 +35,7 @@ const toastElement = document.querySelector('.js-toast');
 let toastTimeoutId;
 
 function updateCartQuantity() {
-  const quantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const quantity = syncCartFromStorage().reduce((sum, item) => sum + item.quantity, 0);
   document.querySelector('.js-cart-quantity').textContent = quantity;
 }
 
@@ -60,6 +51,7 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
   button.addEventListener('click', () => {
     addToCart(button.dataset.productId);
     updateCartQuantity();
+    updateCartBadge();
     showAddToCartFeedback();
   });
 });

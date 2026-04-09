@@ -1,6 +1,7 @@
-import {cart, removeFromCart, updateCartItemQuantity, clearCart} from '../data/cart.js';
+import {cart, removeFromCart, updateCartItemQuantity, clearCart, syncCartFromStorage} from './cart.js';
 import {products} from '../data/products.js';
 import {formatCurrency} from './utils/money.js';
+import {requireAuth} from './auth.js';
 import {
   getAddresses,
   getPaymentMethods,
@@ -10,6 +11,8 @@ import {
   setSelectedPaymentId
 } from '../data/user-profile.js';
 
+requireAuth('login.html');
+
 const SHIPPING_CENTS = 499;
 
 function getProduct(productId) {
@@ -17,10 +20,12 @@ function getProduct(productId) {
 }
 
 function getCartQuantity() {
+  syncCartFromStorage();
   return cart.reduce((total, cartItem) => total + cartItem.quantity, 0);
 }
 
 function getItemsTotalCents() {
+  syncCartFromStorage();
   return cart.reduce((sum, cartItem) => {
     const product = getProduct(cartItem.productId);
     return product ? sum + (product.priceCents * cartItem.quantity) : sum;
@@ -28,6 +33,7 @@ function getItemsTotalCents() {
 }
 
 function renderCartSummary() {
+  syncCartFromStorage();
   const orderSummaryElement = document.querySelector('.js-order-summary');
 
   if (cart.length === 0) {
@@ -201,6 +207,7 @@ function renderAll() {
 }
 
 document.querySelector('.js-place-order-button').addEventListener('click', () => {
+  syncCartFromStorage();
   const hasAddress = getAddresses().length > 0;
   const hasPayment = getPaymentMethods().length > 0;
 

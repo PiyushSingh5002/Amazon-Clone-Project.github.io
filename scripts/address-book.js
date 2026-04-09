@@ -1,14 +1,8 @@
-import {cart} from '../data/cart.js';
+import {requireAuth} from './auth.js';
 import {addAddress, deleteAddress, getAddresses} from '../data/user-profile.js';
+import './site-shell.js';
 
-function updateCartQuantity() {
-  const quantity = cart.reduce((sum, item) => sum + item.quantity, 0);
-  const badge = document.querySelector('.js-cart-quantity');
-
-  if (badge) {
-    badge.textContent = quantity;
-  }
-}
+requireAuth('login.html');
 
 function renderAddresses() {
   const listElement = document.querySelector('.js-address-list');
@@ -57,5 +51,4 @@ document.querySelector('.js-address-form').addEventListener('submit', (event) =>
   renderAddresses();
 });
 
-updateCartQuantity();
 renderAddresses();

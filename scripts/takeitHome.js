@@ -1,5 +1,6 @@
-import {cart, addToCart} from '../data/cart.js';
-import {storeProducts} from '../data/store-products.js';
+import {addToCart, syncCartFromStorage} from './cart.js';
+import {getProducts, getProductsByCategory} from './products.js';
+import {updateCartBadge} from './site-shell.js';
 
 const CATEGORY_TITLES = {
   all: 'All Products',
@@ -33,15 +34,10 @@ function normalizeCategory(category) {
 
 function getFilteredProducts(category) {
   if (category === 'all') {
-    return storeProducts;
+    return getProducts();
   }
 
-  if (category === 'deals') {
-    return [...storeProducts].sort((a, b) => a.price - b.price).slice(0, 8);
-  }
-
-  const mappedCategory = normalizeCategory(category);
-  return storeProducts.filter((product) => product.category === mappedCategory);
+  return getProductsByCategory(normalizeCategory(category));
 }
 
 function renderProductGrid() {
@@ -76,8 +72,8 @@ function renderProductGrid() {
 function renderMiniCategoryGrid(category) {
   const miniGrid = document.querySelector(`.js-mini-grid-${category}`);
   const products = category === 'deals'
-    ? [...storeProducts].sort((a, b) => a.price - b.price).slice(0, 4)
-    : storeProducts.filter((product) => product.category === category).slice(0, 4);
+    ? [...getProducts()].sort((a, b) => a.price - b.price).slice(0, 4)
+    : getProductsByCategory(category).slice(0, 4);
 
   if (!miniGrid) {
     return;
@@ -142,7 +138,8 @@ function attachCategoryHandlers() {
 }
 
 function updateCartQuantity() {
-  const cartQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const cartItems = syncCartFromStorage();
+  const cartQuantity = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const cartBadge = document.querySelector('.js-cart-quantity');
 
   cartBadge.textContent = cartQuantity;
@@ -173,6 +170,7 @@ function attachAddToCartHandler() {
 
     addToCart(button.dataset.productId);
     updateCartQuantity();
+    updateCartBadge();
     showAddToCartFeedback(button);
   });
 }
