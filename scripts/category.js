@@ -1,59 +1,77 @@
 import {addToCart, syncCartFromStorage} from './cart.js';
-import {getProductsByCategory} from './products.js';
-import {formatCurrency} from './utils/money.js';
+import {getProductById, getProductsByCategory, normalizeCategory} from './products.js';
 import {updateCartBadge} from './site-shell.js';
+import {
+  animateAddButton,
+  attachProductGridInteractions,
+  initProductModal,
+  renderProductGrid,
+  showToast
+} from './ui.js';
 
 const CATEGORY_LABELS = {
   utensils: 'Utensils Deals',
-  clothes: 'Clothes Deals',
-  electronics: 'Electronics Deals',
-  books: 'Books and Essentials'
+  clothes: 'Fashion Picks',
+  electronics: 'Electronics Essentials',
+  books: 'Books and Learning',
+  deals: 'Today Deals'
 };
 
 const params = new URLSearchParams(window.location.search);
-const category = params.get('category') || 'utensils';
-const categoryTitle = CATEGORY_LABELS[category] || 'Category Deals';
+const requestedCategory = normalizeCategory(params.get('category') || 'utensils');
 
-document.querySelector('.js-category-title').textContent = categoryTitle;
+let activeCategory = requestedCategory;
+let matchedProducts = getProductsByCategory(activeCategory, {limit: 12});
 
-const matchedProducts = getProductsByCategory(category).slice(0, 12);
+if (matchedProducts.length === 0) {
+  activeCategory = 'utensils';
+  matchedProducts = getProductsByCategory(activeCategory, {limit: 12});
+}
 
 const categoryGrid = document.querySelector('.js-category-grid');
-categoryGrid.innerHTML = matchedProducts
-  .map((product) => `
-    <article class="category-item">
-      <img src="${product.image}" alt="${product.name}">
-      <h3 class="limit-text-to-2-lines">${product.name}</h3>
-      <div>⭐ ${product.rating.stars} (${product.rating.count})</div>
-      <div class="category-price">Rs. ${formatCurrency(product.priceCents)}</div>
-      <button class="add-to-cart-button button-primary js-add-to-cart" data-product-id="${product.id}">Add to Cart</button>
-    </article>
-  `)
-  .join('');
+const categoryTitleElement = document.querySelector('.js-category-title');
+const categoryCountElement = document.querySelector('.js-category-count');
 
-const toastElement = document.querySelector('.js-toast');
-let toastTimeoutId;
+categoryTitleElement.textContent = CATEGORY_LABELS[activeCategory] || 'Category Deals';
+
+if (categoryCountElement) {
+  categoryCountElement.textContent = `${matchedProducts.length} items loaded`;
+}
+
+renderProductGrid({
+  container: categoryGrid,
+  products: matchedProducts,
+  variant: 'category'
+});
 
 function updateCartQuantity() {
   const quantity = syncCartFromStorage().reduce((sum, item) => sum + item.quantity, 0);
-  document.querySelector('.js-cart-quantity').textContent = quantity;
+  const cartBadge = document.querySelector('.js-cart-quantity');
+
+  if (cartBadge) {
+    cartBadge.textContent = quantity;
+  }
 }
 
-function showAddToCartFeedback() {
-  toastElement.classList.add('show');
-  clearTimeout(toastTimeoutId);
-  toastTimeoutId = setTimeout(() => {
-    toastElement.classList.remove('show');
-  }, 1300);
+function handleAddToCart(productId, button) {
+  addToCart(productId);
+  updateCartQuantity();
+  updateCartBadge();
+  animateAddButton(button);
+
+  const product = getProductById(productId);
+  const message = product ? `${product.name} added to cart` : 'Item added to cart';
+  showToast(message, 1400);
 }
 
-document.querySelectorAll('.js-add-to-cart').forEach((button) => {
-  button.addEventListener('click', () => {
-    addToCart(button.dataset.productId);
-    updateCartQuantity();
-    updateCartBadge();
-    showAddToCartFeedback();
-  });
+initProductModal({
+  onAddToCart: handleAddToCart
+});
+
+attachProductGridInteractions({
+  container: categoryGrid,
+  getProductById,
+  onAddToCart: handleAddToCart
 });
 
 updateCartQuantity();

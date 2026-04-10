@@ -1,17 +1,25 @@
 import {storeProducts as defaultProducts} from '../data/store-products.js';
 
 const PRODUCTS_KEY = 'tih-products';
+const PRODUCTS_VERSION_KEY = 'tih-products-version';
+const PRODUCTS_VERSION = 2;
 
 function writeProducts(products) {
   localStorage.setItem(PRODUCTS_KEY, JSON.stringify(products));
+  localStorage.setItem(PRODUCTS_VERSION_KEY, String(PRODUCTS_VERSION));
 }
 
 function initializeProductsStore() {
   const savedProducts = JSON.parse(localStorage.getItem(PRODUCTS_KEY));
+  const savedVersion = Number(localStorage.getItem(PRODUCTS_VERSION_KEY));
 
-  if (!Array.isArray(savedProducts) || savedProducts.length === 0) {
+  if (!Array.isArray(savedProducts) || savedProducts.length < 30 || savedVersion !== PRODUCTS_VERSION) {
     writeProducts(defaultProducts);
   }
+}
+
+export function normalizeCategory(category) {
+  return category === 'fashion' ? 'clothes' : category;
 }
 
 export function getProducts() {
@@ -29,17 +37,24 @@ export function setProducts(products) {
   writeProducts(products);
 }
 
-export function getProductsByCategory(category) {
-  const products = getProducts();
+export function getProductById(productId) {
+  return getProducts().find((product) => product.id === productId);
+}
 
-  if (category === 'all') {
+export function getProductsByCategory(category, options = {}) {
+  const {limit} = options;
+  const products = getProducts();
+  const normalizedCategory = normalizeCategory(category);
+
+  if (normalizedCategory === 'all') {
     return products;
   }
 
-  if (category === 'deals') {
-    return [...products].sort((a, b) => a.price - b.price).slice(0, 8);
+  if (normalizedCategory === 'deals') {
+    const sortedDeals = [...products].sort((a, b) => a.price - b.price);
+    return typeof limit === 'number' ? sortedDeals.slice(0, limit) : sortedDeals.slice(0, 12);
   }
 
-  const mappedCategory = category === 'fashion' ? 'clothes' : category;
-  return products.filter((product) => product.category === mappedCategory);
+  const filteredProducts = products.filter((product) => product.category === normalizedCategory);
+  return typeof limit === 'number' ? filteredProducts.slice(0, limit) : filteredProducts;
 }

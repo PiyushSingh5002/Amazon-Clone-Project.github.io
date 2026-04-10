@@ -1,5 +1,5 @@
 import {cart, removeFromCart, updateCartItemQuantity, clearCart, syncCartFromStorage} from './cart.js';
-import {products} from '../data/products.js';
+import {getProductById} from './products.js';
 import {formatCurrency} from './utils/money.js';
 import {requireAuth} from './auth.js';
 import {
@@ -16,7 +16,23 @@ requireAuth('login.html');
 const SHIPPING_CENTS = 499;
 
 function getProduct(productId) {
-  return products.find((product) => product.id === productId);
+  return getProductById(productId);
+}
+
+function getProductPriceCents(product) {
+  if (!product) {
+    return 0;
+  }
+
+  if (typeof product.price === 'number') {
+    return product.price;
+  }
+
+  if (typeof product.priceCents === 'number') {
+    return product.priceCents;
+  }
+
+  return 0;
 }
 
 function getCartQuantity() {
@@ -28,7 +44,7 @@ function getItemsTotalCents() {
   syncCartFromStorage();
   return cart.reduce((sum, cartItem) => {
     const product = getProduct(cartItem.productId);
-    return product ? sum + (product.priceCents * cartItem.quantity) : sum;
+    return sum + (getProductPriceCents(product) * cartItem.quantity);
   }, 0);
 }
 
@@ -64,7 +80,7 @@ function renderCartSummary() {
 
             <div class="cart-item-details">
               <div class="product-name">${product.name}</div>
-              <div class="product-price">Rs. ${formatCurrency(product.priceCents)}</div>
+              <div class="product-price">Rs. ${formatCurrency(getProductPriceCents(product))}</div>
               <div class="product-quantity">
                 <span>
                   Quantity:

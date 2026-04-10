@@ -16,15 +16,23 @@
     <!-- Here are the CSS files for this page. -->
     <link rel="stylesheet" href="styles/shared/general.css">
     <link rel="stylesheet" href="styles/shared/takeitHome-header.css">
+    <link rel="stylesheet" href="styles/shared/product-ui.css">
     <link rel="stylesheet" href="styles/pages/takeitHome.css">
   </head>
   <body class="page-loading">
     <div class="splash-screen js-splash-screen" aria-live="polite">
-      <div class="splash-content">
-        <h1 class="splash-brand">TakeItHome.com</h1>
-        <p class="splash-tagline">Take it home before it's gone!</p>
-        <div class="splash-loader">
-          <span></span><span></span><span></span>
+      <div class="skeleton-shell">
+        <div class="skeleton-header shimmer"></div>
+        <div class="skeleton-hero shimmer"></div>
+        <div class="skeleton-grid">
+          <div class="skeleton-card shimmer"></div>
+          <div class="skeleton-card shimmer"></div>
+          <div class="skeleton-card shimmer"></div>
+          <div class="skeleton-card shimmer"></div>
+        </div>
+        <div class="splash-status">
+          <span class="splash-spinner" aria-hidden="true"></span>
+          <p>Loading fresh deals for you...</p>
         </div>
       </div>
     </div>
@@ -114,34 +122,34 @@
       </section>
 
       <section class="category-deck">
-        <article class="category-card" data-category="deals">
+        <article class="category-card" data-category="deals" role="button" tabindex="0" aria-label="Show today deals products">
           <h3>Today Deals</h3>
           <div class="mini-grid js-mini-grid-deals"></div>
-          <a href="#" class="see-more-link" data-category="deals">See more</a>
+          <a href="category.html?category=deals" class="see-more-link" data-category="deals">See more</a>
         </article>
 
-        <article class="category-card" data-category="utensils">
+        <article class="category-card" data-category="utensils" role="button" tabindex="0" aria-label="Show utensils deals products">
           <h3>Utensils Deals</h3>
           <div class="mini-grid js-mini-grid-utensils"></div>
-          <a href="#" class="see-more-link" data-category="utensils">See more</a>
+          <a href="category.html?category=utensils" class="see-more-link" data-category="utensils">See more</a>
         </article>
 
-        <article class="category-card" data-category="clothes">
+        <article class="category-card" data-category="clothes" role="button" tabindex="0" aria-label="Show fashion picks products">
           <h3>Fashion Picks</h3>
           <div class="mini-grid js-mini-grid-clothes"></div>
-          <a href="#" class="see-more-link" data-category="clothes">See more</a>
+          <a href="category.html?category=clothes" class="see-more-link" data-category="clothes">See more</a>
         </article>
 
-        <article class="category-card" data-category="electronics">
+        <article class="category-card" data-category="electronics" role="button" tabindex="0" aria-label="Show electronics essentials products">
           <h3>Electronics Essentials</h3>
           <div class="mini-grid js-mini-grid-electronics"></div>
-          <a href="#" class="see-more-link" data-category="electronics">See more</a>
+          <a href="category.html?category=electronics" class="see-more-link" data-category="electronics">See more</a>
         </article>
 
-        <article class="category-card" data-category="books">
+        <article class="category-card" data-category="books" role="button" tabindex="0" aria-label="Show books and learning products">
           <h3>Books and Learning</h3>
           <div class="mini-grid js-mini-grid-books"></div>
-          <a href="#" class="see-more-link" data-category="books">See more</a>
+          <a href="category.html?category=books" class="see-more-link" data-category="books">See more</a>
         </article>
       </section>
 
